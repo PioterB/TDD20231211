@@ -1,0 +1,11 @@
+GET http://localhost:51704/api/vehicles HTTP/1.1
+
+###
+POST http://localhost:51704/api/vehicles HTTP/1.1
+Content-Type: application/json
+
+{
+    "Name": "MyCar",
+    "Model": "V40",
+    "Make": "Volvo"
+}
