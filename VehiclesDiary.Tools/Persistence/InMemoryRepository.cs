@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace VehiclesDiary.Tools.Persistence
 {
-    public class InMemoryRepository<TKey, TItem>
+    public class InMemoryRepository<TKey, TItem> : IRepository<TKey, TItem>
     {
         private readonly IDictionary<TKey, TItem> _store = new Dictionary<TKey, TItem>();
 
