@@ -2,5 +2,6 @@
 {
     public interface IVehiclesService
     {
+        bool Add(Car newItem);
     }
 }
