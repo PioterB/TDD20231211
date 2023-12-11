@@ -15,7 +15,7 @@ namespace VehicleDiary.Logic
 		{
 			if (ReferenceEquals(null, other)) return false;
 			if (ReferenceEquals(this, other)) return true;
-			return Name == other.Name;
+			return string.Equals(Name, other.Name, StringComparison.InvariantCultureIgnoreCase);
 		}
 
 		public override bool Equals(object obj)
