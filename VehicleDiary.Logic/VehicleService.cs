@@ -5,7 +5,7 @@ using VehiclesDiary.Tools.Persistence;
 namespace VehicleDiary.Logic
 {
     /// <summary>
-    /// Przechowuje zbiór pojazdów, manipuluje zbiorem
+    /// Manipuluje zbiorem
     /// </summary>
     public class VehicleService : IVehiclesService
     {
@@ -27,8 +27,7 @@ namespace VehicleDiary.Logic
 
         public bool Delete(string name)
         {
-            _vehiclesRepository.Remove(name);
-            return true;
+            throw new System.Exception();
         }
     }
 }
