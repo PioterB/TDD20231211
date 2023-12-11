@@ -1,13 +1,16 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using VehicleDiary.Logic;
+using VehiclesDiary.Tools.Persistence;
 
 namespace VehiclesDiary.Tests
 {
     public class VehicleServiceTests
     {
+        private InMemoryRepository<string, Vehicle> _vehiclesRepository;
         private IVehiclesService _unitUnderTest;
 
         [OneTimeSetUp]
@@ -18,7 +21,8 @@ namespace VehiclesDiary.Tests
         [SetUp]
         public void Setup()
         {
-            _unitUnderTest = new VehicleService();
+            _vehiclesRepository = new InMemoryRepository<string, Vehicle>();
+            _unitUnderTest = new VehicleService(_vehiclesRepository);
         }
 
         [Test]
@@ -41,6 +45,46 @@ namespace VehiclesDiary.Tests
 
             Assert.IsFalse(failure);
         }
+
+        [Test]
+        public void Delete_Has_Removed() 
+        {
+            var removedName = "x";
+            _vehiclesRepository.Add(removedName, new Car(removedName));
+
+            _unitUnderTest.Delete(removedName);
+
+            Assert.IsTrue(_vehiclesRepository.Exists(removedName));
+        }
+
+        [Test]
+        public void Delete_Has_OthersPersisted()
+        {
+            var other = new Car("name");
+            var toRemove = new Car("toRemove");
+            var items = new List<Car>() { other, toRemove };
+
+            _ = _unitUnderTest.Add(toRemove);
+
+            _unitUnderTest.Delete(toRemove.Name);
+
+            Assert.AreEqual(other, items.First());
+        }
+
+        [Test]
+        public void Delete_Has_CollectionReduced()
+        {
+            var other = new Car("name");
+            var toRemove = new Car("toRemove");
+            var items = new List<Car>() { other, toRemove };
+
+            _ = _unitUnderTest.Add(toRemove);
+
+            _unitUnderTest.Delete(toRemove.Name);
+
+            Assert.AreEqual(1, items.Count);
+        }
+
 
         [TearDown]
         public void Teardown()

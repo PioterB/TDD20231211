@@ -6,10 +6,18 @@ namespace VehicleDiary.Logic
 	{
 		protected Vehicle(string name)
 		{
+			if(string.IsNullOrWhiteSpace(name))
+				throw new ArgumentException($"{nameof(name)} is required");
 			Name = name;
 		}
 
 		public string Name { get; private set; }
+
+		public string Make { get; set; }
+		
+		public string Model { get; set; }
+
+		public DateTime? Manufactured { get; set; }
 
 		public bool Equals(Vehicle other)
 		{

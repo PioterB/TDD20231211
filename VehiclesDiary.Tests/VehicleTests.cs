@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using VehicleDiary.Logic;
 
@@ -16,6 +17,26 @@ namespace VehiclesDiary.Tests
         [SetUp]
         public void Setup()
         {
+        }
+
+        [Test]
+        [TestCase(null, Description = "nothing name")]
+        [TestCase("", Description = "missing name")]
+        [TestCase(" ", Description = "empty name")]
+        public void Ctor_InvalidName_Rejected(string invalidName)
+        {
+            TestDelegate action = () => new Car(invalidName);
+
+            Assert.Throws<ArgumentException>(action);
+        }
+
+        [Test]
+        [TestCase("x")]
+        public void Ctor_ValidName_Contructed(string validName)
+        {
+            TestDelegate action = () => new Car(validName);
+
+            Assert.DoesNotThrow(action);
         }
 
         [Test]
