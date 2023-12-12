@@ -1,8 +1,13 @@
-﻿namespace VehicleDiary.Logic
+﻿using VehiclesDiary.Logic;
+using VehiclesDiary.Tools;
+
+namespace VehicleDiary.Logic
 {
     public interface IVehiclesService
     {
-        bool Add(Car newItem);
+        bool Add(Vehicle newItem);
+
+        Result<Vehicle> Add(VehicleCreationRequest input);
 
         bool Delete(string name);
     }

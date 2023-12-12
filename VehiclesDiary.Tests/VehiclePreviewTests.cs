@@ -12,7 +12,7 @@ namespace VehiclesDiary.Tests
         [Test]
         public void Ctor_Vehicle_NameMapped()
         {
-            var vehicle = new Car("x");
+            var vehicle = VehicleFactory.Create();
 
             var preview = new VehiclePreview(vehicle);
 

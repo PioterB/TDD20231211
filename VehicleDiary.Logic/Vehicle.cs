@@ -4,18 +4,26 @@ namespace VehicleDiary.Logic
 {
 	public abstract class Vehicle : IEquatable<Vehicle>
 	{
-		protected Vehicle(string name)
+		protected Vehicle(string name, string make, string model)
 		{
 			if(string.IsNullOrWhiteSpace(name))
-				throw new ArgumentException($"{nameof(name)} is required");
-			Name = name;
+				throw new ArgumentException($"{nameof(Name)} is required");
+            
+			if (string.IsNullOrWhiteSpace(make))
+                throw new ArgumentException($"{nameof(Make)} is required");
+
+            if (string.IsNullOrWhiteSpace(model))
+                throw new ArgumentException($"{nameof(Model)} is required");
+
+            Name = name;
+			Make = make;
 		}
 
 		public string Name { get; private set; }
 
-		public string Make { get; set; }
+		public string Make { get; private set; }
 		
-		public string Model { get; set; }
+		public string Model { get; private set; }
 
 		public DateTime? Manufactured { get; set; }
 

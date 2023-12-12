@@ -29,7 +29,7 @@ namespace VehiclesDiary.Tests
         [Test]
         public void Add_NotExisting_Added()
         {
-            var newItem = new Car("car");
+            var newItem = VehicleFactory.Create();
             
             bool success = _unitUnderTest.Add(newItem);
             
@@ -39,9 +39,11 @@ namespace VehiclesDiary.Tests
         [Test]
         public void Add_Duplicate_Ignored()
         {
-            _vehiclesRepository.Exists("duplicate").Returns(true);
+            var duplicatedName = "d";
+
+            _vehiclesRepository.Exists(duplicatedName).Returns(true);
             
-            bool failure = _unitUnderTest.Add(new Car("duplicate"));
+            bool failure = _unitUnderTest.Add(VehicleFactory.Create(duplicatedName));
 
             Assert.IsFalse(failure);
         }
@@ -60,7 +62,7 @@ namespace VehiclesDiary.Tests
         public void Delete_NotExists_Removed()
         {
             var other = "x";
-            _vehiclesRepository.Add(other, new Car(other));
+            _vehiclesRepository.Add(other, VehicleFactory.Create(other));
 
             var read = _unitUnderTest.Delete("y");
 

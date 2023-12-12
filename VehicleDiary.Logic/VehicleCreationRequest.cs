@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace VehiclesDiary.Controllers
+namespace VehiclesDiary.Logic
 {
 	public class VehicleCreationRequest
 	{
@@ -18,5 +18,5 @@ namespace VehiclesDiary.Controllers
 		[Required]
 		[StringLength(25, MinimumLength = 3)]
 		public string Name { get; set; }
-	}
+    }
 }

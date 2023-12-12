@@ -2,7 +2,7 @@
 {
     public class Car : Vehicle
     {
-        public Car(string name) : base(name)
+        public Car(string name, string make, string model) : base(name, make, model)
         {
         }
     }

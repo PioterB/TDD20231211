@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using VehicleDiary.Logic;
+using VehiclesDiary.Logic;
+using VehiclesDiary.Tools;
 using VehiclesDiary.Tools.Persistence;
 
 namespace VehiclesDiary.Controllers
@@ -15,10 +17,12 @@ namespace VehiclesDiary.Controllers
     public class VehiclesController : ControllerBase
     {
         private readonly IRepository<string, Vehicle> _vehiclesRepository;
+        private readonly IVehiclesService _vehiclesService;
 
-        public VehiclesController(IRepository<string, Vehicle> _vehiclesRepository)
+        public VehiclesController(IRepository<string, Vehicle> _vehiclesRepository, IVehiclesService vehiclesService)
         {
             this._vehiclesRepository = _vehiclesRepository;
+            this._vehiclesService = vehiclesService;
         }
 
         [HttpGet]
@@ -30,7 +34,13 @@ namespace VehiclesDiary.Controllers
         [HttpPost]
         public IActionResult Add(VehicleCreationRequest input)
         {
-            throw new NotImplementedException();
+            if (input == null)
+            {
+                return BadRequest();
+            }
+
+            Result<Vehicle> result = _vehiclesService.Add(input);
+            return result.Fail ? (IActionResult)BadRequest() : Ok(result.Value);
         }
 
         [HttpDelete]

@@ -1,8 +1,5 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using VehicleDiary.Logic;
 
 namespace VehiclesDiary.Tests
@@ -25,7 +22,7 @@ namespace VehiclesDiary.Tests
         [TestCase(" ", Description = "empty name")]
         public void Ctor_InvalidName_Rejected(string invalidName)
         {
-            TestDelegate action = () => new Car(invalidName);
+            TestDelegate action = () => new Car(invalidName, "make", "model");
 
             Assert.Throws<ArgumentException>(action);
         }
@@ -34,7 +31,7 @@ namespace VehiclesDiary.Tests
         [TestCase("x")]
         public void Ctor_ValidName_Contructed(string validName)
         {
-            TestDelegate action = () => new Car(validName);
+            TestDelegate action = () => new Car(validName, "make", "model");
 
             Assert.DoesNotThrow(action);
         }
@@ -43,7 +40,7 @@ namespace VehiclesDiary.Tests
         public void Equals_Nothing_Negative()
         {
             object given = null;
-            var unitUnderTest = new Car("Me");
+            var unitUnderTest = VehicleFactory.Create();
             
             var read = unitUnderTest.Equals(given);
 
@@ -53,7 +50,7 @@ namespace VehiclesDiary.Tests
         [Test]
         public void Equals_Me_Positive()
         {
-            var unitUnderTest = new Car("Me");
+            var unitUnderTest = VehicleFactory.Create();
             object given = unitUnderTest;
 
             var read = unitUnderTest.Equals(given);
@@ -64,7 +61,7 @@ namespace VehiclesDiary.Tests
         [Test]
         public void Equals_Other_Negative()
         {
-            var unitUnderTest = new Car("Me");
+            var unitUnderTest = VehicleFactory.Create();
             object given = new object();
 
             var read = unitUnderTest.Equals(given);
@@ -75,8 +72,8 @@ namespace VehiclesDiary.Tests
         [Test]
         public void Equals_SameName_Positive()
         {
-            var unitUnderTest = new Car("Me");
-            object given = new Car(unitUnderTest.Name);
+            var unitUnderTest = VehicleFactory.Create("Me");
+            object given = VehicleFactory.Create(unitUnderTest.Name);
 
             var read = unitUnderTest.Equals(given);
 
@@ -86,8 +83,8 @@ namespace VehiclesDiary.Tests
         [Test]
         public void Equals_SameNameDifferentCasing_Positive()
         {
-            var unitUnderTest = new Car("Me");
-            object given = new Car(unitUnderTest.Name.ToLower());
+            var unitUnderTest = VehicleFactory.Create("XXX");
+            object given = VehicleFactory.Create(unitUnderTest.Name.ToLower());
 
             var read = unitUnderTest.Equals(given);
 
@@ -97,8 +94,8 @@ namespace VehiclesDiary.Tests
         [Test]
         public void Equals_DifferentName_Negative()
         {
-            var unitUnderTest = new Car("Me");
-            object given = new Car("Other");
+            var unitUnderTest = VehicleFactory.Create("me");
+            object given = VehicleFactory.Create("other");
 
             var read = unitUnderTest.Equals(given);
 
