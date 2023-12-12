@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VehicleDiary.Logic\VehicleDiary.Logic.csproj" />
+    <ProjectReference Include="..\VehiclesDiary\VehiclesDiary.csproj" />
   </ItemGroup>
 
 </Project>

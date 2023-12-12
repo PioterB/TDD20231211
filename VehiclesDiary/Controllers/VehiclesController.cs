@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using VehicleDiary.Logic;
+using VehiclesDiary.Tools.Persistence;
 
 namespace VehiclesDiary.Controllers
 {
@@ -13,15 +14,17 @@ namespace VehiclesDiary.Controllers
     [ApiController]
     public class VehiclesController : ControllerBase
     {
-        public VehiclesController()
-        {
+        private readonly IRepository<string, Vehicle> _vehiclesRepository;
 
+        public VehiclesController(IRepository<string, Vehicle> _vehiclesRepository)
+        {
+            this._vehiclesRepository = _vehiclesRepository;
         }
 
         [HttpGet]
         public IEnumerable<VehiclePreview> Get()
         {
-            throw new NotImplementedException();
+            return _vehiclesRepository.GetAll().Select(item => new VehiclePreview(item));
         }
 
         [HttpPost]
