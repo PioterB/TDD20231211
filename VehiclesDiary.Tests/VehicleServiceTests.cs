@@ -54,37 +54,50 @@ namespace VehiclesDiary.Tests
 
             _unitUnderTest.Delete(removedName);
 
-            Assert.IsTrue(_vehiclesRepository.Exists(removedName));
+            Assert.IsFalse(_vehiclesRepository.Exists(removedName));
         }
 
         [Test]
-        public void Delete_Has_OthersPersisted()
+        public void Delete_NotExists_Removed()
         {
-            var other = new Car("name");
-            var toRemove = new Car("toRemove");
-            var items = new List<Car>() { other, toRemove };
+            var other = "x";
+            _vehiclesRepository.Add(other, new Car(other));
 
-            _ = _unitUnderTest.Add(toRemove);
+            _unitUnderTest.Delete("y");
 
-            _unitUnderTest.Delete(toRemove.Name);
-
-            Assert.AreEqual(other, items.First());
+            Assert.IsFalse(_vehiclesRepository.Exists("y"));
         }
 
         [Test]
-        public void Delete_Has_CollectionReduced()
+        public void Delete_Has_OtherStays()
         {
-            var other = new Car("name");
-            var toRemove = new Car("toRemove");
-            var items = new List<Car>() { other, toRemove };
+            var removedName = "x";
+            var other = "y";
+            var other2 = "y2";
+            _vehiclesRepository.Add(other2, new Car(other2));
+            _vehiclesRepository.Add(removedName, new Car(removedName));
+            _vehiclesRepository.Add(other, new Car(other));
 
-            _ = _unitUnderTest.Add(toRemove);
+            _unitUnderTest.Delete(removedName);
 
-            _unitUnderTest.Delete(toRemove.Name);
-
-            Assert.AreEqual(1, items.Count);
+            Assert.IsTrue(_vehiclesRepository.Exists(other));
+            Assert.IsTrue(_vehiclesRepository.Exists(other2));
         }
 
+        [Test]
+        public void Delete_Has_ReducedByOne()
+        {
+            var removedName = "x";
+            var other = "y";
+            var other2 = "y2";
+            _vehiclesRepository.Add(other2, new Car(other2));
+            _vehiclesRepository.Add(removedName, new Car(removedName));
+            _vehiclesRepository.Add(other, new Car(other));
+
+            _unitUnderTest.Delete(removedName);
+
+            Assert.AreEqual(2, _vehiclesRepository.GetAll().Count());
+        }
 
         [TearDown]
         public void Teardown()

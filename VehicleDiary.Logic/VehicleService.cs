@@ -27,7 +27,8 @@ namespace VehicleDiary.Logic
 
         public bool Delete(string name)
         {
-            throw new System.Exception();
+            _vehiclesRepository.Remove(name);
+            return true;
         }
     }
 }
