@@ -44,7 +44,7 @@ namespace VehiclesDiary.Tests
         public void Add_Invalid_BadResult()
         {
             _vehicleService.Add((VehicleCreationRequest)null).ReturnsForAnyArgs(Result<Vehicle>.Failure());
-            VehicleCreationRequest invalid = new VehicleCreationRequest() { Name = ""};
+            VehicleCreationRequest invalid = VehicleCreateRequestFactory.Invalid("");
 
             var response = _unitUnderTests.Add(invalid);
 
@@ -55,7 +55,7 @@ namespace VehiclesDiary.Tests
         public void Add_Correct_OkResult()
         {
             _vehicleService.Add((VehicleCreationRequest)null).ReturnsForAnyArgs(Result<Vehicle>.Success(VehicleFactory.Create()));
-            VehicleCreationRequest valid = new VehicleCreationRequest() { Name = "x" };
+            VehicleCreationRequest valid = VehicleCreateRequestFactory.Create();
 
             var response = _unitUnderTests.Add(valid);
 

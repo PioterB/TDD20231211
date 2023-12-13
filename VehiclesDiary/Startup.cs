@@ -21,7 +21,7 @@ namespace VehiclesDiary
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
-            services.AddSingleton(typeof(IRepository<string, Car>), typeof(InMemoryRepository<string, Car>));
+            services.AddSingleton(typeof(IRepository<string, Vehicle>), typeof(InMemoryRepository<string, Vehicle>));
         }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

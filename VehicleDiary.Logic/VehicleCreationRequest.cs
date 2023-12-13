@@ -5,7 +5,7 @@ namespace VehiclesDiary.Logic
 {
 	public class VehicleCreationRequest
 	{
-		public VehicleCreationRequest()
+		protected VehicleCreationRequest()
 		{
 		}
 
