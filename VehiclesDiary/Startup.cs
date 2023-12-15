@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VehicleDiary.Logic;
+using VehiclesDiary.Logic.Vehicles;
 using VehiclesDiary.Tools.Persistence;
 
 namespace VehiclesDiary
 {
-	public class Startup
+    public class Startup
 	{
 		public Startup(IConfiguration configuration)
 		{

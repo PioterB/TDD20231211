@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
-using VehicleDiary.Logic;
+using VehiclesDiary.Logic.Vehicles;
 
 namespace VehiclesDiary.Tests
 {

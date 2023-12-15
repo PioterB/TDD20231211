@@ -1,5 +1,5 @@
 ﻿using System;
-using VehiclesDiary.Logic;
+using VehiclesDiary.Logic.Vehicles;
 
 namespace VehiclesDiary.Tests
 {

@@ -1,4 +1,4 @@
-﻿using VehicleDiary.Logic;
+﻿using VehiclesDiary.Logic.Vehicles;
 
 namespace VehiclesDiary.Controllers
 {

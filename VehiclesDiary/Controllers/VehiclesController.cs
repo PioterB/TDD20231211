@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using VehicleDiary.Logic;
-using VehiclesDiary.Logic;
+using VehiclesDiary.Logic.Events;
+using VehiclesDiary.Logic.Vehicles;
 using VehiclesDiary.Tools;
 using VehiclesDiary.Tools.Persistence;
 
@@ -47,6 +45,18 @@ namespace VehiclesDiary.Controllers
         public IStatusCodeActionResult Del(string name)
         {
             throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public IActionResult NewEvent(VehicleEventRequest newEvent)
+        {
+            if (newEvent == null)
+            {
+                return BadRequest();
+            }
+
+            Result<VehicleEvent> result = _vehiclesService.NewEvent(newEvent);
+            return result.Fail ? (IActionResult)BadRequest() : Ok(result.Value);
         }
     }
 }

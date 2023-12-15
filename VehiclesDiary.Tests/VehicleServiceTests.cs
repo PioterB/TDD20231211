@@ -1,10 +1,9 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using VehicleDiary.Logic;
+using VehiclesDiary.Logic;
+using VehiclesDiary.Logic.Events;
+using VehiclesDiary.Logic.Vehicles;
 using VehiclesDiary.Tools.Persistence;
 
 namespace VehiclesDiary.Tests
@@ -12,7 +11,8 @@ namespace VehiclesDiary.Tests
     public class VehicleServiceTests
     {
         private IRepository<string, Vehicle> _vehiclesRepository;
-        private IVehiclesService _unitUnderTest;
+        private IValidator<VehicleEventRequest> _eventRequestValidator;
+        private VehicleService _unitUnderTest;
 
         [OneTimeSetUp]
         public void SingleSetup()
@@ -23,7 +23,8 @@ namespace VehiclesDiary.Tests
         public void Setup()
         {
             _vehiclesRepository = Substitute.For<IRepository<string, Vehicle>>();
-            _unitUnderTest = new VehicleService(_vehiclesRepository);
+            _eventRequestValidator = Substitute.For<IValidator<VehicleEventRequest>>();
+            _unitUnderTest = new VehicleService(_vehiclesRepository, _eventRequestValidator);
         }
 
         [Test]
@@ -70,7 +71,17 @@ namespace VehiclesDiary.Tests
             _vehiclesRepository.DidNotReceive().Remove(other);
         }
 
-         [TearDown]
+        [Test]
+        public void NewEvent_Valid_Created()
+        {
+            var given = VehicleEventRequestFactory.Create();
+
+            var read = _unitUnderTest.NewEvent(given);
+
+            Assert.IsFalse(read.Fail);
+        }
+
+        [TearDown]
         public void Teardown()
         {
         }

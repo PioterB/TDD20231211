@@ -13,5 +13,8 @@
     <ProjectReference Include="..\VehiclesDiary.Tools\VehiclesDiary.Tools.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="VehiclesDiary.Tests"/>
+  </ItemGroup>
 
 </Project>

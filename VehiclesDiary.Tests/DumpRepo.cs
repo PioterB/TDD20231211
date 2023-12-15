@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VehicleDiary.Logic;
+using VehiclesDiary.Logic.Vehicles;
 using VehiclesDiary.Tools.Persistence;
 
 namespace VehiclesDiary.Tests

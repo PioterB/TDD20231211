@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using VehicleDiary.Logic;
+using VehiclesDiary.Logic;
 using VehiclesDiary.Controllers;
 
 namespace VehiclesDiary.Tests

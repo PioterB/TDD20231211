@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="VehiclesDiary.Tests"/>
+    <InternalsVisibleTo Include="VehiclesDiary.Tests" />
   </ItemGroup>
 
 </Project>

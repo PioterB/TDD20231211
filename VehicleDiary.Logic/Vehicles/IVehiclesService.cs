@@ -1,7 +1,7 @@
-﻿using VehiclesDiary.Logic;
+﻿using VehiclesDiary.Logic.Events;
 using VehiclesDiary.Tools;
 
-namespace VehicleDiary.Logic
+namespace VehiclesDiary.Logic.Vehicles
 {
     public interface IVehiclesService
     {
@@ -10,5 +10,7 @@ namespace VehicleDiary.Logic
         Result<Vehicle> Add(VehicleCreationRequest input);
 
         bool Delete(string name);
+
+        Result<VehicleEvent> NewEvent(VehicleEventRequest input);
     }
 }

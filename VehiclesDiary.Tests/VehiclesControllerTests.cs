@@ -3,9 +3,9 @@ using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using VehicleDiary.Logic;
+using VehiclesDiary.Logic.Events;
+using VehiclesDiary.Logic.Vehicles;
 using VehiclesDiary.Controllers;
-using VehiclesDiary.Logic;
 using VehiclesDiary.Tools;
 using VehiclesDiary.Tools.Persistence;
 
@@ -83,6 +83,40 @@ namespace VehiclesDiary.Tests
 
             Assert.IsTrue(items.All(a => a != null));
         }
+
+
+        [Test]
+        public void NewEvent_Nothing_BadRequest()
+        {
+            var given = VehicleEventRequestFactory.Nothing();
+
+            var result = _unitUnderTests.NewEvent(given);
+
+            Assert.IsInstanceOf<BadRequestResult>(result);
+        }
+
+        [Test]
+        public void NewEvent_Invalid_BadRequest()
+        {
+            var given = VehicleEventRequestFactory.Invalid();
+            _vehicleService.NewEvent(null).ReturnsForAnyArgs(Result<VehicleEvent>.Failure());
+
+            var result = _unitUnderTests.NewEvent(given);
+
+            Assert.IsInstanceOf<BadRequestResult>(result);
+        }
+
+        [Test]
+        public void NewEvent_Valid_Accepted()
+        {
+            var given = VehicleEventRequestFactory.Create();
+            _vehicleService.NewEvent(null).ReturnsForAnyArgs(Result<VehicleEvent>.Success(VehicleEventFactory.Create()));
+
+            var result = _unitUnderTests.NewEvent(given);
+
+            Assert.IsInstanceOf<OkObjectResult>(result);
+        }
+
 
         [TearDown]
         public void Teardown()

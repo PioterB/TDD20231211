@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using VehiclesDiary.Logic;
+﻿using VehiclesDiary.Logic.Events;
 using VehiclesDiary.Tools;
 using VehiclesDiary.Tools.Persistence;
 
-namespace VehicleDiary.Logic
+namespace VehiclesDiary.Logic.Vehicles
 {
     /// <summary>
     /// Manipuluje zbiorem
@@ -12,10 +10,12 @@ namespace VehicleDiary.Logic
     public class VehicleService : IVehiclesService
     {
         private readonly IRepository<string, Vehicle> _vehiclesRepository;
+        private IValidator<VehicleEventRequest> _eventRequestValidator;
 
-        public VehicleService(IRepository<string, Vehicle> vehiclesRepository)
+        public VehicleService(IRepository<string, Vehicle> vehiclesRepository, IValidator<VehicleEventRequest> eventRequestValidator)
         {
             _vehiclesRepository = vehiclesRepository;
+            _eventRequestValidator = eventRequestValidator;
         }
 
         public bool Add(Vehicle newItem)
@@ -23,7 +23,7 @@ namespace VehicleDiary.Logic
             var has = _vehiclesRepository.Exists(newItem.Name);
             if (has) { return false; }
 
-           _vehiclesRepository.Add(newItem.Name, newItem);
+            _vehiclesRepository.Add(newItem.Name, newItem);
             return true;
         }
 
@@ -36,6 +36,18 @@ namespace VehicleDiary.Logic
         {
             _vehiclesRepository.Remove(name);
             return true;
+        }
+
+        public Result<VehicleEvent> NewEvent(VehicleEventRequest input)
+        {
+            var isValid = _eventRequestValidator.Validate(input);
+            if (!isValid)
+            {
+                return Result<VehicleEvent>.Failure();
+            }
+
+            var newEvent = new VehicleEvent(input.Mileage.Value);
+            return newEvent;
         }
     }
 }
